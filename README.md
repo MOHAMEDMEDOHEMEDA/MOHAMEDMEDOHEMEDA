@@ -16,7 +16,8 @@
 - ⚡ Focused on bridging elegant UI design with efficient backend integration to drive superior user engagement.
 
 ---
-
+<img width="682" height="1024" alt="image" src="https://github.com/user-attachments/assets/f0946cd8-e020-4cdc-8ed8-842226bf08de" />
+---
 ### 🛠️ Tech Stack & Tools
 
 **Programming Languages**
