@@ -67,8 +67,8 @@
 
 ### 📊 GitHub Stats
 <p align="left">
-  <img src="https://github-readme-stats.vercel.app/api?username=MOHAMEDMEDOHEMEDA&show_icons=true&theme=radical" alt="Stats" height="150" />
-  <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=MOHAMEDMEDOHEMEDA&layout=compact&theme=radical" alt="Languages" height="150" />
+  <img src="https://github-readme-stats-five-chi-65.vercel.app/api?username=m-magdy-m&show_icons=true&theme=radical" alt="Stats" height="150" />
+  <img src="https://github-readme-stats-five-chi-65.vercel.app/api/top-langs/?username=m-magdy-m&layout=compact&theme=radical" alt="Languages" height="150" />
 </p>
 
 ---
