@@ -58,10 +58,10 @@
 
 | Project | Key Technologies | Description |
 | :--- | :--- | :--- |
-| **[Coachak](https://github.com/m-magdy-m)** | `SwiftUI`, `MVVM`, `Gemini AI`, `Combine` | Fitness application integrating Google Gemini AI for personalized recommendations. |
-| **[iTour](https://github.com/m-magdy-m)** | `SwiftUI`, `SwiftData` | Travel planning app with modern local persistence and navigation. |
-| **[Smart Security](https://github.com/m-magdy-m)** | `C++`, `Firebase`, `ESP32` | IoT Home security system with real-time alerts and iOS integration. |
-| **[What Flower](https://github.com/m-magdy-m)** | `Core ML`, `Wikipedia API`, `Python` | ML-powered identification app with converted Caffe models. |
+| **[Coachak](https://github.com/MOHAMEDMEDOHEMEDA)** | `SwiftUI`, `MVVM`, `Gemini AI`, `Combine` | Fitness application integrating Google Gemini AI for personalized recommendations. |
+| **[iTour](https://github.com/MOHAMEDMEDOHEMEDA)** | `SwiftUI`, `SwiftData` | Travel planning app with modern local persistence and navigation. |
+| **[Smart Security](https://github.com/MOHAMEDMEDOHEMEDA)** | `C++`, `Firebase`, `ESP32` | IoT Home security system with real-time alerts and iOS integration. |
+| **[What Flower](https://github.com/MOHAMEDMEDOHEMEDA)** | `Core ML`, `Wikipedia API`, `Python` | ML-powered identification app with converted Caffe models. |
 
 ---
 
