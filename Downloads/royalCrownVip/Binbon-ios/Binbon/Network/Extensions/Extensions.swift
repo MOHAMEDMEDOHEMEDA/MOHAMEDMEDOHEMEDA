@@ -1,0 +1,221 @@
+//
+//  Extensions.swift
+//  Binbon
+//
+//  Created by Salah Khaled on 03/03/2026.
+//
+
+import Foundation
+import SwiftUI
+import ActivityKit
+
+// MARK: - String
+extension String {
+    
+    var capitalFirst: String {
+        guard let first = first else { return self }
+        return first.uppercased() + dropFirst()
+    }
+    
+    func truncated(_ max: Int) -> String {
+        guard count > max else { return self }
+        
+        let visible = prefix(max)
+        let remain = count - max
+        return "\(visible)... + (\(remain) chars)"
+    }
+    
+    func truncateToken(prefix: Int = 3, suffix: Int = 3) -> String {
+        guard let spaceIndex = firstIndex(of: " ") else { return self }
+        
+        let scheme = self[..<spaceIndex]
+        let tokenStart = index(after: spaceIndex)
+        let token = self[tokenStart...]
+        
+        guard token.count > prefix + suffix else { return self }
+        
+        let start = token.index(token.startIndex, offsetBy: prefix)
+        let end = token.index(token.endIndex, offsetBy: -suffix)
+        
+        return "\(scheme) \(token[..<start])...\(token[end...])"
+    }
+}
+
+
+// MARK: - Paramters
+extension Encodable {
+    
+    func asDictionary() -> [String: Any]? {
+        guard let data = try? JSONEncoder().encode(self),
+              let params = try? JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String: Any]
+        else { return nil }
+        return params
+    }
+}
+
+
+// MARK: - Data Pretty Print
+extension Data? {
+    
+    func prettyPrint(max: Int = 120) -> String {
+        guard let data = self else { return "{ }" }
+        
+        do {
+            let object = try JSONSerialization.jsonObject(with: data, options: [])
+            let truncatedObject = truncate(object, max: max)
+            
+            let prettyData = try JSONSerialization.data(withJSONObject: truncatedObject,
+                                                        options: [.prettyPrinted, .sortedKeys, .withoutEscapingSlashes])
+            
+            return String(decoding: prettyData, as: UTF8.self)
+        } catch {
+            return String(decoding: data, as: UTF8.self)
+        }
+    }
+    
+    
+    // MARK: - Truncation
+    private func truncate(_ value: Any, max: Int) -> Any {
+        
+        switch value {
+        case let dict as [String: Any]:
+            return dict.mapValues { truncate($0, max: max) }
+            
+        case let array as [Any]:
+            return array.map { truncate($0, max: max) }
+            
+        case let string as String:
+            if string.count > max {
+                let visible = String(string.prefix(max))
+                let remain = string.count - max
+                return "\(visible)... + (\(remain) chars)"
+            }
+            return string
+        default:
+            return value
+        }
+    }
+}
+
+
+// MARK: - Header Pretty Print
+extension Headers {
+    func prettyPrint() -> String {
+        
+        guard !self.isEmpty else { return "[ ]" }
+        let sorted = self.sorted { $0.key.lowercased() < $1.key.lowercased() }
+        let maxLength = sorted.map { $0.key.count }.max() ?? 0
+        
+        return sorted.map { key, value in
+            let paddedKey = key.padding(toLength: maxLength, withPad: " ", startingAt: 0)
+            let key = paddedKey.contains(APIHeader.authorization) ? "🔐 " : ""
+            return "   [\(paddedKey)]  \(key)\(value)"
+        }
+        .joined(separator: "\n")
+    }
+}
+
+
+// MARK: - Decoding Error
+extension DecodingError {
+    
+    var errorPath: String {
+        switch self {
+        case .typeMismatch(_, let context),
+             .valueNotFound(_, let context),
+             .keyNotFound(_, let context),
+             .dataCorrupted(let context):
+            
+            let path = context.codingPath.map { $0.stringValue.capitalized }.joined(separator: ")  →  (")
+            return "Decoding error at key  (\(path))\n\(context.debugDescription)"
+            
+        @unknown default:
+            return self.localizedDescription
+        }
+    }
+}
+
+
+// MARK: - Status Code Color
+extension Int {
+    func color() -> Color {
+        switch self {
+        case 100 ..< 200: return .blue
+        case 200 ..< 300: return .green
+        case 300 ..< 400: return .yellow
+        case 400 ..< 500: return .orange
+        default: return .red
+        }
+    }
+}
+
+
+// MARK: - View
+extension View {
+    
+    @ViewBuilder
+    func `if`<IfContent: View>(_ condition: Bool, _ transform: (Self) -> IfContent) -> some View {
+        if condition { transform(self) }
+        else { self }
+    }
+    
+    @ViewBuilder
+    func `if`<IfContent: View, ElseContent: View>(_ condition: Bool,
+                                                  _ transform: (Self) -> IfContent,
+                                                  `else` elseTransform: (Self) -> ElseContent) -> some View {
+        if condition { transform(self) }
+        else { elseTransform(self) }
+    }
+    
+    func copyable(title: String = "copy".localized,
+                  text: String,
+                  color: Color = .blue,
+                  icon: String = "square.on.square",
+                  enableSwipe: Bool = true,
+                  enableMenu: Bool = true,
+                  type: ToastEntry? = nil) -> some View {
+        self.modifier(CopyableModifier(title: title, text: text, color: color, icon: icon, swipe: enableSwipe, menu: enableMenu, type: type))
+    }
+}
+
+// MARK: - Copy
+fileprivate struct CopyableModifier: ViewModifier {
+    let title: String
+    let text: String
+    let color: Color
+    let icon: String
+    let swipe: Bool
+    let menu: Bool
+    let type: ToastEntry?
+    
+    func body(content: Content) -> some View {
+        content
+            .if(swipe) {
+                $0.swipeActions(edge: .trailing) {
+                    Button {
+                        copyText()
+                    } label: {
+                        Label(title, systemImage: icon)
+                    }
+                    .tint(color)
+                }
+            }
+            .if(menu) {
+                $0.contextMenu {
+                    Button(title) {
+                        copyText()
+                    }
+                }
+            }
+    }
+    
+    private func copyText() {
+        UIPasteboard.general.string = text
+        
+        let message = title.lowercased().contains("copy")
+        ? "copied_clipboard".localized
+        : (title + " " + "copied_clipboard".localized.lowercased())
+        
+        Toaster.shared.show(type ?? .success("square.on.square"), message)
+    }
+}

@@ -1,0 +1,780 @@
+[
+  {
+    "version": 1,
+    "bugs": [
+      {
+        "id": "bug-actor-route-view",
+        "timestamp": "2026-06-08T20:36:00.000Z",
+        "error_message": "Call to main actor-isolated initializer 'init()' in a synchronous nonisolated context (AppRouter.swift:73, VideosViewModel())",
+        "file": "Binbon/App/AppRouter.swift",
+        "root_cause": "Route.view is a nonisolated computed property, but the .videoDetails case constructs VideosViewModel() which is @MainActor-isolated. Inline construction of a @MainActor type from a nonisolated getter is rejected.",
+        "fix": "Annotated the `var view` computed property with @MainActor (above @ViewBuilder). SwiftUI builds these views on the main actor anyway, so this is safe and keeps inline VM construction working.",
+        "tags": [
+          "concurrency",
+          "main-actor",
+          "swiftui",
+          "router",
+          "swift"
+        ],
+        "related_bugs": [],
+        "occurrences": 1,
+        "last_seen": "2026-06-08T20:36:00.000Z"
+      },
+      {
+        "id": "bug-lottie-loop-missing-import",
+        "timestamp": "2026-06-17T00:00:00.000Z",
+        "error_message": "ScreenLoadingModifier.swift: enum case 'loop' is not available due to missing import of defining module 'Lottie'",
+        "file": "Binbon/Widgets/Reusable/ScreenLoadingModifier.swift",
+        "root_cause": "Used LottieLoopMode.loop (passing loopMode: .loop to LottieView) in a file that only imported SwiftUI. LottieLoopMode is defined in the Lottie module, so .loop is unresolved without importing it — even though LottieView itself wraps Lottie in another file.",
+        "fix": "Added `import Lottie` to ScreenLoadingModifier.swift. Same class of error as the Combine/@Published one: referencing a type's members requires importing its defining module.",
+        "tags": [
+          "swift",
+          "lottie",
+          "missing-import",
+          "build-error"
+        ],
+        "related_bugs": [],
+        "occurrences": 1,
+        "last_seen": "2026-06-17T00:00:00.000Z"
+      },
+      {
+        "id": "bug-appcolor-destructive-redeclare",
+        "timestamp": "2026-06-17T00:00:00.000Z",
+        "error_message": "AppColor.swift:404:16: error: invalid redeclaration of 'destructive'",
+        "file": "Binbon/Extensions/AppColor.swift",
+        "root_cause": "Added a new `static var destructive` token for the friend-row Block action without checking that AppColor already defines `static let destructive = Color(hex: \"E14554\")` lower in the file.",
+        "fix": "Removed the duplicate and reused the existing `AppColor.destructive`. Kept only the new `contextMenuSurface` token (charcoal). Lesson: grep AppColor for an existing token before adding a new one.",
+        "tags": [
+          "swift",
+          "appcolor",
+          "redeclaration",
+          "build-error",
+          "theme-tokens"
+        ],
+        "related_bugs": [],
+        "occurrences": 1,
+        "last_seen": "2026-06-17T00:00:00.000Z"
+      },
+      {
+        "id": "bug-reel-fullscreen-index",
+        "timestamp": "2026-06-17T00:00:00.000Z",
+        "error_message": "Opening a reel full screen and going back jumps to the first reel instead of staying on the same video index",
+        "file": "Binbon/Features/Reel/Presentation/ViewModel/ReelsViewModel.swift",
+        "root_cause": "The reels feed is a paging ScrollView bound via .scrollPosition(id: $currentReelId). Presenting a .fullScreenCover over it makes the ScrollView lose its position and snap back to the first item on dismiss, which writes the first reel id back into currentReelId.",
+        "fix": "First attempt (snapping currentReelId back to the pinned id from inside activeReelChanged while covered) created a binding<->ScrollView feedback loop that got STUCK. Replaced with: enterFullScreen() pins the active id + sets isCoveredByFullScreen; activeReelChanged() simply ignores (no side effects, no snap) while covered; on the cover's onDismiss (fires after the snap-to-top settles) exitFullScreen() publishes restoreReelId; the pager is wrapped in a ScrollViewReader and on restoreReelId does proxy.scrollTo(target, anchor: .top) + sets currentReelId + resumeIfPlaying. Do NOT mutate currentReelId from inside activeReelChanged while bound to .scrollPosition.",
+        "tags": [
+          "swiftui",
+          "fullscreencover",
+          "scrollposition",
+          "reels",
+          "binding"
+        ],
+        "related_bugs": [],
+        "occurrences": 1,
+        "last_seen": "2026-06-17T00:00:00.000Z"
+      },
+      {
+        "id": "bug-001",
+        "timestamp": "2026-06-07T18:49:35.006Z",
+        "error_message": "Incorrect value in code",
+        "file": "Binbon/Screens/Setting/SecuritySetting/Model/SecurityActivityModel.swift",
+        "root_cause": "Had 's window, measured back from `",
+        "fix": "Changed to `reference`",
+        "tags": [
+          "auto-detected",
+          "wrong-value",
+          "swift"
+        ],
+        "related_bugs": [],
+        "occurrences": 1,
+        "last_seen": "2026-06-07T18:49:35.006Z"
+      },
+      {
+        "id": "bug-002",
+        "timestamp": "2026-06-07T18:50:53.487Z",
+        "error_message": "Incorrect value in code",
+        "file": "Binbon/Screens/Setting/SecuritySetting/ViewModel/SecuritySettingViewModel.swift",
+        "root_cause": "Had \"Save\"",
+        "fix": "Changed to 's deliberately\n        // left out of the \"",
+        "tags": [
+          "auto-detected",
+          "wrong-value",
+          "swift"
+        ],
+        "related_bugs": [],
+        "occurrences": 1,
+        "last_seen": "2026-06-07T18:50:53.487Z"
+      },
+      {
+        "id": "bug-003",
+        "timestamp": "2026-06-07T19:12:00.366Z",
+        "error_message": "Significant refactor of ",
+        "file": "Binbon/Network/UseCase/Setting/SettingService.swift",
+        "root_cause": "7 lines replaced/restructured",
+        "fix": "Rewrote 9→3 lines (7 removed)",
+        "tags": [
+          "auto-detected",
+          "refactor",
+          "swift"
+        ],
+        "related_bugs": [],
+        "occurrences": 1,
+        "last_seen": "2026-06-07T19:12:00.366Z"
+      },
+      {
+        "id": "bug-004",
+        "timestamp": "2026-06-07T19:13:45.249Z",
+        "error_message": "Wrong reference: Updated should be stream_audience",
+        "file": "Binbon/Utilities/Localization/Locale/ar.json",
+        "root_cause": "Used \"Updated\" instead of \"stream_audience\"",
+        "fix": "Changed Updated → stream_audience",
+        "tags": [
+          "auto-detected",
+          "wrong-reference",
+          "json"
+        ],
+        "related_bugs": [],
+        "occurrences": 1,
+        "last_seen": "2026-06-07T19:13:45.249Z"
+      },
+      {
+        "id": "bug-005",
+        "timestamp": "2026-06-07T20:20:04.944Z",
+        "error_message": "Incorrect value in code",
+        "file": "Binbon/Utilities/Localization/Locale/en.json",
+        "root_cause": "Had \"two_fa_description\"",
+        "fix": "Changed to \"new_device_alerts_description\"",
+        "tags": [
+          "auto-detected",
+          "wrong-value",
+          "json"
+        ],
+        "related_bugs": [],
+        "occurrences": 1,
+        "last_seen": "2026-06-07T20:20:04.944Z"
+      },
+      {
+        "id": "bug-006",
+        "timestamp": "2026-06-07T20:20:06.821Z",
+        "error_message": "Incorrect value in code",
+        "file": "Binbon/Utilities/Localization/Locale/ar.json",
+        "root_cause": "Had \"two_fa_description\"",
+        "fix": "Changed to \"new_device_alerts_description\"",
+        "tags": [
+          "auto-detected",
+          "wrong-value",
+          "json"
+        ],
+        "related_bugs": [],
+        "occurrences": 1,
+        "last_seen": "2026-06-07T20:20:06.821Z"
+      },
+      {
+        "id": "bug-007",
+        "timestamp": "2026-06-07T21:08:44.796Z",
+        "error_message": "Wrong reference: white should be Color",
+        "file": "Binbon/Screens/Setting/SecuritySetting/View/SecuritySettingView.swift",
+        "root_cause": "Used \"white\" instead of \"Color\"",
+        "fix": "Changed white → Color",
+        "tags": [
+          "auto-detected",
+          "wrong-reference",
+          "swift"
+        ],
+        "related_bugs": [],
+        "occurrences": 8,
+        "last_seen": "2026-06-07T21:08:48.994Z"
+      },
+      {
+        "id": "bug-008",
+        "timestamp": "2026-06-07T21:08:50.955Z",
+        "error_message": "Incorrect value in code",
+        "file": "Binbon/Screens/Setting/SecuritySetting/View/SecuritySettingView.swift",
+        "root_cause": "Had \"83489C\"",
+        "fix": "Changed to \"White\"",
+        "tags": [
+          "auto-detected",
+          "wrong-value",
+          "swift"
+        ],
+        "related_bugs": [],
+        "occurrences": 1,
+        "last_seen": "2026-06-07T21:08:50.955Z"
+      },
+      {
+        "id": "bug-009",
+        "timestamp": "2026-06-07T21:23:54.387Z",
+        "error_message": "Significant refactor of ",
+        "file": "Binbon/Screens/Setting/SecuritySetting/View/SecuritySettingView.swift",
+        "root_cause": "54 lines replaced/restructured",
+        "fix": "Rewrote 65→4 lines (54 removed)",
+        "tags": [
+          "auto-detected",
+          "refactor",
+          "swift"
+        ],
+        "related_bugs": [],
+        "occurrences": 1,
+        "last_seen": "2026-06-07T21:23:54.387Z"
+      },
+      {
+        "id": "bug-010",
+        "timestamp": "2026-06-07T21:32:09.568Z",
+        "error_message": "Significant refactor of ",
+        "file": "Binbon/Screens/Setting/SecuritySetting/View/SecuritySettingView.swift",
+        "root_cause": "11 lines replaced/restructured",
+        "fix": "Rewrote 18→4 lines (11 removed)",
+        "tags": [
+          "auto-detected",
+          "refactor",
+          "swift"
+        ],
+        "related_bugs": [],
+        "occurrences": 1,
+        "last_seen": "2026-06-07T21:32:09.568Z"
+      },
+      {
+        "id": "bug-012",
+        "timestamp": "2026-06-08T18:19:55.179Z",
+        "error_message": "Incorrect value in code",
+        "file": "Binbon/Screens/Photos/View/PhotosView.swift",
+        "root_cause": "Had \"something_went_wrong\"",
+        "fix": "Changed to \"couldnt_load_photos\"",
+        "tags": [
+          "auto-detected",
+          "wrong-value",
+          "swift"
+        ],
+        "related_bugs": [],
+        "occurrences": 1,
+        "last_seen": "2026-06-08T18:19:55.179Z"
+      },
+      {
+        "id": "bug-013",
+        "timestamp": "2026-06-08T18:20:10.049Z",
+        "error_message": "Incorrect value in code",
+        "file": "Binbon/Utilities/Localization/Locale/ar.json",
+        "root_cause": "Had \"no_followers_yet\"",
+        "fix": "Changed to \"couldnt_load_photos\"",
+        "tags": [
+          "auto-detected",
+          "wrong-value",
+          "json"
+        ],
+        "related_bugs": [],
+        "occurrences": 1,
+        "last_seen": "2026-06-08T18:20:10.049Z"
+      },
+      {
+        "id": "bug-014",
+        "timestamp": "2026-06-08T18:45:43.123Z",
+        "error_message": "Wrong reference: goldAccentGradient should be pageIndicatorGradient",
+        "file": "Binbon/Screens/Photos/View/PhotosView.swift",
+        "root_cause": "Used \"goldAccentGradient\" instead of \"pageIndicatorGradient\"",
+        "fix": "Changed goldAccentGradient → pageIndicatorGradient",
+        "tags": [
+          "auto-detected",
+          "wrong-reference",
+          "swift"
+        ],
+        "related_bugs": [],
+        "occurrences": 1,
+        "last_seen": "2026-06-08T18:45:43.123Z"
+      },
+      {
+        "id": "bug-015",
+        "timestamp": "2026-06-08T18:49:03.221Z",
+        "error_message": "Significant refactor of ",
+        "file": "Binbon/Screens/Photos/View/PhotosView.swift",
+        "root_cause": "4 lines replaced/restructured",
+        "fix": "Rewrote 22→32 lines (4 removed) | Also: // MARK: Caption; private var caption: some View {",
+        "tags": [
+          "auto-detected",
+          "refactor",
+          "swift"
+        ],
+        "related_bugs": [],
+        "occurrences": 2,
+        "last_seen": "2026-06-08T18:49:31.567Z"
+      },
+      {
+        "id": "bug-016",
+        "timestamp": "2026-06-08T18:49:08.147Z",
+        "error_message": "Null/undefined access in ",
+        "file": "Binbon/Screens/Photos/View/PhotosView.swift",
+        "root_cause": "Property access on potentially null/undefined value",
+        "fix": "Added null safety (optional chaining or null check)",
+        "tags": [
+          "auto-detected",
+          "null-safety",
+          "swift"
+        ],
+        "related_bugs": [],
+        "occurrences": 1,
+        "last_seen": "2026-06-08T18:49:08.147Z"
+      },
+      {
+        "id": "bug-017",
+        "timestamp": "2026-06-08T18:49:52.349Z",
+        "error_message": "Incorrect value in code",
+        "file": "Binbon/Utilities/Localization/Locale/en.json",
+        "root_cause": "Had \"new_device_alerts_description\"",
+        "fix": "Changed to \"show_less\"",
+        "tags": [
+          "auto-detected",
+          "wrong-value",
+          "json"
+        ],
+        "related_bugs": [],
+        "occurrences": 1,
+        "last_seen": "2026-06-08T18:49:52.349Z"
+      },
+      {
+        "id": "bug-018",
+        "timestamp": "2026-06-08T18:49:53.971Z",
+        "error_message": "Incorrect value in code",
+        "file": "Binbon/Utilities/Localization/Locale/ar.json",
+        "root_cause": "Had \"new_device_alerts_description\"",
+        "fix": "Changed to \"show_less\"",
+        "tags": [
+          "auto-detected",
+          "wrong-value",
+          "json"
+        ],
+        "related_bugs": [],
+        "occurrences": 1,
+        "last_seen": "2026-06-08T18:49:53.971Z"
+      },
+      {
+        "id": "bug-voicecall-screenshare-asset-name",
+        "timestamp": "2026-06-29",
+        "error_message": "Voice call screen-share tile rendered blank — Image(\"screenShare\") never matched an asset",
+        "file": "Binbon/Features/Calls/VoiceCall/Presentation/Components/VoiceCallParticipantsGrid.swift",
+        "root_cause": "The asset catalog imageset is named shareScreen (Assets.xcassets/VoiceCalls/shareScreen.imageset) but the code referenced \"screenShare\" — name mismatch so SwiftUI loaded nothing.",
+        "fix": "Changed Image(\"screenShare\") to Image(\"shareScreen\"). Video call's new screen-share tile uses the correct name too.",
+        "tags": [
+          "voice-call",
+          "video-call",
+          "screen-share",
+          "asset",
+          "image-name"
+        ],
+        "related_bugs": [],
+        "occurrences": 1,
+        "last_seen": "2026-06-29"
+      },
+      {
+        "id": "bug-videocall-report-block-sheet",
+        "timestamp": "2026-06-29",
+        "error_message": "Video call block/report used native .alert; user wanted the voice-call gradient sheet look",
+        "file": "Binbon/Features/Calls/VideoCall/Presentation/View/VideoCallView.swift",
+        "root_cause": "Block/report/report-problem were presented via SwiftUI .alert, inconsistent with the voice call which uses VoiceCallReportSheet bottom sheets.",
+        "fix": "Replaced the three .alert modifiers with .sheet { VoiceCallReportSheet(...) }. Added optional messageArg to VoiceCallReportSheet so the %@ name still substitutes. Renamed showBlock/Report*Alert -> *Sheet.",
+        "tags": [
+          "video-call",
+          "voice-call",
+          "report",
+          "block",
+          "sheet",
+          "ui-consistency"
+        ],
+        "related_bugs": [],
+        "occurrences": 1,
+        "last_seen": "2026-06-29"
+      }
+    ]
+  },
+  {
+    "id": "bug-001",
+    "timestamp": "2026-06-08T21:51:20.750408",
+    "error_message": "Photo carousel paging stutters / gets stuck mid-swipe inside the vertical feed",
+    "file": "Binbon/Screens/Photos/View/PhotosView.swift",
+    "root_cause": "A paged TabView (.tabViewStyle(.page)) nested inside the feed's vertical ScrollView — the TabView's internal pager gesture competes with the outer scroll, leaving swipes resolved at a partial offset.",
+    "fix": "Replaced the TabView carousel with a horizontal ScrollView using .scrollTargetBehavior(.paging) + .scrollTargetLayout() and bound the active page via .scrollPosition(id:) (iOS 17). Page dots read the same binding.",
+    "tags": [
+      "swiftui",
+      "tabview",
+      "scrollview",
+      "paging",
+      "gesture-conflict",
+      "carousel"
+    ],
+    "related_bugs": [],
+    "occurrences": 1,
+    "last_seen": "2026-06-08T21:51:20.750408"
+  },
+  {
+    "id": "bug-019",
+    "timestamp": "2026-06-09T18:54:45.000Z",
+    "error_message": "Opening/dismissing the full-screen photo viewer showed a stray horizontal push animation on the source card",
+    "file": "Binbon/Widgets/PhotoPostCard.swift",
+    "root_cause": "FullScreenPhotoView's paging scrollPosition(id:) was bound to the card's own currentPhoto @State. Presenting the .fullScreenCover (with .presentationBackground(.clear)) wrote to that shared state, scrolling the card's carousel underneath, which showed through the translucent backdrop as an automatic push.",
+    "fix": "Decoupled the viewer's paging into local @State (init(startIndex:)) and drove the cover + zoom sourceID from a separate fullScreenStart index, so the card's currentPhoto is never touched on open/dismiss. The source stays stable.",
+    "tags": [
+      "swiftui",
+      "fullscreencover",
+      "zoom-transition",
+      "scrollposition",
+      "binding",
+      "animation"
+    ],
+    "related_bugs": [],
+    "occurrences": 1,
+    "last_seen": "2026-06-09T18:54:45.000Z"
+  },
+  {
+    "id": "bug-021",
+    "timestamp": "2026-06-16T00:00:00.000Z",
+    "error_message": "static subscript 'subscript(_enclosingInstance:wrapped:storage:)' is not available due to missing import of defining module 'Combine'",
+    "file": "Binbon/Widgets/Reusable/AppTabBar.swift",
+    "root_cause": "Added an ObservableObject (ReelChromeState) with @Published in a file that only imported SwiftUI. @Published's property-wrapper enclosing-instance subscript lives in Combine, which SwiftUI does not transitively re-export for this use.",
+    "fix": "Added `import Combine` to AppTabBar.swift.",
+    "tags": [
+      "swift",
+      "combine",
+      "published",
+      "observableobject",
+      "import"
+    ],
+    "related_bugs": [],
+    "occurrences": 1,
+    "last_seen": "2026-06-16T00:00:00.000Z"
+  },
+  {
+    "id": "bug-020",
+    "timestamp": "2026-06-09T19:10:56.000Z",
+    "error_message": "Opening/dismissing the full-screen photo viewer shrank the whole feed (rounded, inset, dimmed) behind it",
+    "file": "Binbon/Widgets/PhotoPostCard.swift",
+    "root_cause": "The iOS 18 system zoom transition (.navigationTransition(.zoom)) recedes the ENTIRE presenting screen as part of its effect. Normally hidden behind an opaque destination, but the viewer's translucent .presentationBackground(.clear) backdrop revealed the receding feed. The system zoom API cannot zoom the photo without scaling the background.",
+    "fix": "Dropped the system zoom transition. Capture the card carousel's global rect via a CarouselFrameKey preference; in the viewer, animate only the photo's scaleEffect+offset between that rect and full screen (custom photo-only zoom) over a static translucent backdrop. Present/dismiss the .fullScreenCover with animations disabled (withTransaction { disablesAnimations }) so the cover itself never slides; onAppear drives the zoom-in, close() drives the zoom-out then removes the cover. Feed never transforms.",
+    "tags": [
+      "swiftui",
+      "fullscreencover",
+      "zoom-transition",
+      "navigationtransition",
+      "presentationbackground",
+      "hero-animation",
+      "matchedgeometry"
+    ],
+    "related_bugs": [
+      "bug-019"
+    ],
+    "occurrences": 1,
+    "last_seen": "2026-06-09T19:10:56.000Z"
+  },
+  {
+    "id": "bug-006",
+    "timestamp": "2026-06-22",
+    "error_message": "Remote/network images not loading app-wide",
+    "file": "Binbon/Network/Core/Network + Image.swift",
+    "root_cause": "Mock data relies heavily on picsum.photos (71 URLs); picsum.photos is currently down/unreachable (HTTP 000, request hangs on URLSession's 60s default timeout), so ImageView showed nothing app-wide.",
+    "fix": "ImageView now shows a deterministic local bundled photo (media-photo-*/media-reel-*) immediately and upgrades to the remote image only if it loads; bare asset-name strings resolve from the catalog; Network.image uses a 10s request timeout so dead hosts fail fast.",
+    "tags": [
+      "images",
+      "networking",
+      "picsum",
+      "placeholder",
+      "mock-data",
+      "ImageView",
+      "timeout"
+    ],
+    "related_bugs": [],
+    "occurrences": 1,
+    "last_seen": "2026-06-22"
+  },
+  {
+    "id": "bug-007",
+    "timestamp": "2026-06-23T15:00:00Z",
+    "error_message": "Selected tab's gold 'ear' shape sticks to the strip edge instead of scrolling off with the tabs",
+    "file": "Binbon/Features/Messages/Presentation/View/MessagesView.swift",
+    "root_cause": "ScrollableUnionShape clamped earMinX/earMaxX to [0,w] and used atLeft/atRight branches that snapped the ear to the panel edge once the selected chip scrolled past it",
+    "fix": "Rewrote path(in:): use raw eS/eE, draw a plain panel top when the ear is fully off-screen (eE<=0 || eS>=w), and rise straight up the edge when the wall is clipped (eS<=0 / eE>=w) so the ear scrolls off and clips naturally",
+    "tags": [
+      "swiftui",
+      "shape",
+      "scroll",
+      "messages",
+      "tabs"
+    ],
+    "related_bugs": [],
+    "occurrences": 1,
+    "last_seen": "2026-06-23T15:00:00Z"
+  },
+  {
+    "id": "bug-008",
+    "timestamp": "2026-06-23T16:55:00Z",
+    "error_message": "Conversation rows list no longer scrolls vertically after adding long-press context menu",
+    "file": "Binbon/Features/Messages/Presentation/View/MessagesView.swift",
+    "root_cause": ".onLongPressGesture on each row captures the touch and competes with the ScrollView's vertical pan, blocking scroll",
+    "fix": "Replaced .onLongPressGesture with .simultaneousGesture(LongPressGesture(minimumDuration: 0.4).onEnded{...}) so the press recognizes without swallowing the scroll drag",
+    "tags": [
+      "swiftui",
+      "scrollview",
+      "gesture",
+      "longpress",
+      "messages"
+    ],
+    "related_bugs": [],
+    "occurrences": 1,
+    "last_seen": "2026-06-23T16:55:00Z"
+  },
+  {
+    "id": "bug-009",
+    "timestamp": "2026-06-23T17:10:00Z",
+    "error_message": "Messages tab union 'ear' lands on the wrong (mirrored) tab in Arabic/RTL",
+    "file": "Binbon/Features/Messages/Presentation/View/MessagesView.swift",
+    "root_cause": "SwiftUI auto-mirrors Shape paths in RTL, but chip frames are measured in the un-mirrored 'union' coordinate space — so earMinX/earMaxX got flipped relative to the actual chip",
+    "fix": "Force the union background ZStack to .environment(\\.layoutDirection, .leftToRight) so the shapes draw in the same coordinate system the chip frames use (same pattern as SeekBar/LiveView)",
+    "tags": [
+      "swiftui",
+      "rtl",
+      "arabic",
+      "shape",
+      "layoutDirection",
+      "messages",
+      "tabs"
+    ],
+    "related_bugs": [],
+    "occurrences": 1,
+    "last_seen": "2026-06-23T17:10:00Z"
+  },
+  {
+    "id": "bug-010",
+    "timestamp": "2026-06-23T17:25:00Z",
+    "error_message": "Floating assistive button mispositioned/drags wrong way and close button on wrong corner in Arabic (RTL)",
+    "file": "Binbon/Widgets/AssistiveTouch/FloatingAssistiveButton.swift",
+    "root_cause": "Button uses absolute .position (bounds.width-based), a .global-space DragGesture, snap-edge math, and a .topTrailing close button — all mirrored/misinterpreted under RTL layoutDirection",
+    "fix": "Pin FloatingAssistiveButtonOverlay to .environment(\\.layoutDirection, .leftToRight) so positioning/drag/snap/close stay consistent regardless of language",
+    "tags": [
+      "swiftui",
+      "rtl",
+      "arabic",
+      "layoutDirection",
+      "assistive-touch",
+      "position",
+      "drag"
+    ],
+    "related_bugs": [
+      "bug-009"
+    ],
+    "occurrences": 1,
+    "last_seen": "2026-06-23T17:25:00Z"
+  },
+  {
+    "id": "bug-msgrow-ismuted",
+    "timestamp": "2026-06-23T00:00:00Z",
+    "error_message": "extra argument 'isMuted' in call (MessagesView.swift:347)",
+    "file": "Binbon/Features/Messages/Presentation/View/MessageConversationRow.swift",
+    "root_cause": "MessagesView passed isMuted: to MessageConversationRow but the row had no such parameter; the do-not-disturb mute state was added to the view model without the matching row property.",
+    "fix": "Added 'var isMuted: Bool = false' to MessageConversationRow and a muted-bell indicator (SF Symbol bell.slash.fill placeholder, no design asset exists) next to the name.",
+    "tags": [
+      "swiftui",
+      "messages",
+      "mute",
+      "compile-error"
+    ],
+    "related_bugs": [],
+    "occurrences": 1,
+    "last_seen": "2026-06-23T00:00:00Z"
+  },
+  {
+    "id": "bug-002",
+    "timestamp": "2026-06-24",
+    "error_message": "Messages tab switch animation lags when scrolling from one tab to another",
+    "file": "Binbon/Features/Messages/Presentation/View/MessagesView.swift",
+    "root_cause": "chipFrames was @State on MessagesView and the whole body (header, profile, and the conversation LazyVStack) referenced it. During the tab-switch scroll the selected chip republishes its frame ~60x/sec via PreferenceKey, re-evaluating the entire view tree each frame.",
+    "fix": "Moved chipFrames @State + onPreferenceChange into a dedicated ConversationUnionView; extracted TabStripView and ConversationListView as separate structs whose only input is the view model. A chip-frame update now redraws only the ear shape (the union background), not the tab strip or list. Also publish ONLY the selected chip's frame (GeometryReader tracker only in the isSelected branch) to cut preference churn.",
+    "tags": [
+      "swiftui",
+      "performance",
+      "preferencekey",
+      "messages",
+      "scroll",
+      "animation"
+    ],
+    "related_bugs": [],
+    "occurrences": 1,
+    "last_seen": "2026-06-24"
+  },
+  {
+    "id": "bug-003",
+    "timestamp": "2026-06-24",
+    "error_message": "Profile tab header collapse animation lags / stutters while scrolling",
+    "file": "Binbon/Features/Profile/Profile/Presentation/View/ProfileView.swift (+ ProfileView + Tabs.swift)",
+    "root_cause": "scrollOffset was @State on ProfileView and the whole body referenced it; every scroll-frame the ScrollOffsetKey preference fired -> the entire body (including the heavy profileTabs LazyVGrid of MediaCards) re-evaluated. Additionally a `.animation(.easeInOut(0.1), value: collapseProgress)` on the header turned each per-frame offset update into a competing 0.1s tween, so the header lagged behind the scroll.",
+    "fix": "Removed the `.animation(value: collapseProgress)` so the header height/opacity track scroll 1:1. Extracted the scrollable body into a dedicated `ProfileScrollContent` view (inputs: selectedTab binding + headerSpacerHeight) publishing a shared `ProfileScrollOffsetKey`; a scrollOffset change no longer re-runs that subtree (stable inputs), so the grid isn't rebuilt per frame.",
+    "tags": [
+      "swiftui",
+      "performance",
+      "scroll",
+      "animation",
+      "preferencekey",
+      "profile",
+      "collapsing-header"
+    ],
+    "related_bugs": [
+      "bug-002"
+    ],
+    "occurrences": 1,
+    "last_seen": "2026-06-24"
+  },
+  {
+    "id": "bug-011",
+    "timestamp": "2026-06-28",
+    "error_message": "In VideoCallView with 3 participants (threeLayout), the bottom-left tile's three-dots button does not appear — tapping it does nothing",
+    "file": "Binbon/Features/Calls/VideoCall/Presentation/View/VideoCallView.swift",
+    "root_cause": "participants[1] is always the local user (accent: .local). threeLayout places index 1 at bottom-left. tileWithEffects passes showsControls: !isLocal, so the local tile renders no three-dots button at all.",
+    "fix": "In callTiles(), reorder participants so the local participant (accent: .local) is moved to index 0 when count >= 3. Index 0 = top full-width slot in threeLayout where having no controls is harmless. All non-local tiles now fill the bottom slots with their controls visible.",
+    "tags": [
+      "video-call",
+      "three-dots",
+      "threeLayout",
+      "participant-order",
+      "showsControls"
+    ],
+    "related_bugs": [
+      "bug-012"
+    ],
+    "occurrences": 1,
+    "last_seen": "2026-06-28"
+  },
+  {
+    "id": "bug-012",
+    "timestamp": "2026-06-28",
+    "error_message": "In VoiceCallsView group call, the three-dots menu appears without animation (transition never plays)",
+    "file": "Binbon/Features/Calls/VoiceCall/Presentation/View/VoiceCallsView.swift",
+    "root_cause": "The onMore closure set menuParticipantID directly without withAnimation, so the .transition() on VoiceCallMoreOptionsMenu had no animation context and never played.",
+    "fix": "Wrapped menuParticipantID = participant.id inside withAnimation(.easeOut(duration: 0.18)) in the onMore closure of participantTile().",
+    "tags": [
+      "voice-call",
+      "three-dots",
+      "withAnimation",
+      "transition",
+      "group-call"
+    ],
+    "related_bugs": [
+      "bug-011",
+      "bug-013"
+    ],
+    "occurrences": 1,
+    "last_seen": "2026-06-28"
+  },
+  {
+    "id": "bug-013",
+    "timestamp": "2026-06-28",
+    "error_message": "VoiceCallsView group-call participant grid is squished to half the available height",
+    "file": "Binbon/Features/Calls/VoiceCall/Presentation/View/VoiceCallsView.swift",
+    "root_cause": "VStack had both Spacer(minLength: 0) and participantsArea.frame(maxHeight: .infinity). Both are flexible, so SwiftUI split remaining space equally — participantsArea only got half the height.",
+    "fix": "Removed Spacer(minLength: 0) from the VStack. singleCallerInfo already has internal spacers for vertical centering; participantsArea now claims all remaining height in group-call mode.",
+    "tags": [
+      "voice-call",
+      "layout",
+      "Spacer",
+      "maxHeight",
+      "LazyVGrid",
+      "group-call"
+    ],
+    "related_bugs": [
+      "bug-012"
+    ],
+    "occurrences": 1,
+    "last_seen": "2026-06-28"
+  },
+  {
+    "id": "bug-014",
+    "timestamp": "2026-06-28",
+    "error_message": "VoiceCallsView group-call three-dots menu never appears for any tile (confirmed with 4 participants)",
+    "file": "Binbon/Features/Calls/VoiceCall/Presentation/Components/VoiceCallParticipantTile.swift, VoiceCallsView.swift",
+    "root_cause": "The per-tile moreButton captured its frame via geo.frame(in: .global) inside the tile, then VoiceCallsView converted it to overlay-local coords by subtracting geo.frame(in: .global) of the overlay GeometryReader. This subtraction is unreliable because the overlay is applied after .ignoresSafeArea(edges: .bottom), making the two .global frames inconsistently comparable. The menu was positioned incorrectly (off-screen or hidden under topBar).",
+    "fix": "Replaced the CGRect callback approach with anchorPreference(key: VoiceCallTileMenuAnchorKey.self, value: .bounds) { [participant.id: $0] } on the moreButton in VoiceCallParticipantTile. VoiceCallsView now uses .overlayPreferenceValue(VoiceCallTileMenuAnchorKey.self) to read anchors and positions the menu via geo[buttonAnchor] which SwiftUI converts to the correct local coordinate space automatically.",
+    "tags": [
+      "voice-call",
+      "three-dots",
+      "anchorPreference",
+      "overlayPreferenceValue",
+      "coordinate-space",
+      "group-call"
+    ],
+    "related_bugs": [
+      "bug-011",
+      "bug-012",
+      "bug-013"
+    ],
+    "occurrences": 1,
+    "last_seen": "2026-06-28"
+  },
+  {
+    "id": "bug-015",
+    "timestamp": "2026-06-28",
+    "error_message": "VoiceCallsView group call with 4 participants: the bottom-left tile's three-dots button does not receive taps (action never fires); top-left/top-right/bottom-right work. Toggling the controls chevron once fixes it permanently.",
+    "file": "Binbon/Features/Calls/VoiceCall/Presentation/View/VoiceCallsView.swift",
+    "root_cause": "CONFIRMED by testing: the bug is specific to EXACTLY 4 participants (a full 2x2 grid) — 2, 3, 5, 6 all work, and the identical [p2,p3] row works as a MIDDLE row in a 6-tile grid. So it is not the row contents nor LazyVGrid laziness; it is a SwiftUI hit-testing quirk where a per-tile .overlay(alignment:.topTrailing){ Button } on the BOTTOM-LEFT cell of a freshly-rendered 2x2 grid never gets a live hit-test region (button is drawn correctly but its action never fires). The controls chevron 'fixed' it only because it triggers an animated structural relayout AFTER the 2x2 is on screen.",
+    "fix": "Render the three-dots buttons as a FLAT sibling layer (participantMoreButtonsLayer) inside the root ZStack in the voiceCallBody coordinate space, .position-ed from per-tile frames the tiles publish (tileMoreButtonFramePublisher, a Color.clear GeometryReader). Inline-grid tiles no longer carry a per-tile .overlay button (rendersInlineMoreButton:false). Flat siblings hit-test independently of grid geometry, so the 2x2 bottom-left quirk can't occur. The >10 scroll grid keeps its in-tile button (rendersInlineMoreButton:true) so it scrolls with the tile. Reuses the existing tileButtonFrames + menuAnchorFrame plumbing, so menu placement is unchanged. Also removed a leftover .background(Color.red.opacity(0.2)) debug tint on controlsSection.",
+    "failed_attempts": "Five fixes did NOT work, all confirmed by device testing: (1) eager VStack/HStack rows instead of LazyVGrid; (2) flexible tile heights (height:nil + maxHeight:.infinity) to remove the GeometryReader read->write feedback; (3) .id(allParticipants.count) on the grid to recreate tiles on add; (4) a deferred .id rebuild token bumped one runloop after the count change; (5) a deferred ANIMATED sub-point bottom-padding nudge on participantsArea to mimic the chevron. None reproduced what the chevron does — only removing the per-tile overlay entirely worked.",
+    "tags": [
+      "voice-call",
+      "three-dots",
+      "hit-testing",
+      "overlay",
+      "2x2-grid",
+      "group-call",
+      "anchorPreference",
+      "flat-button-layer"
+    ],
+    "related_bugs": [
+      "bug-011",
+      "bug-012",
+      "bug-013",
+      "bug-014"
+    ],
+    "occurrences": 1,
+    "last_seen": "2026-06-29",
+    "bugs": [
+      {
+        "id": "bug-022",
+        "timestamp": "2026-06-29",
+        "error_message": "Tapping + to add a participant in VideoCallView freezes the app (UI hang).",
+        "file": "Binbon/Network/Core/Network + Image.swift, Binbon/Features/Calls/VideoCall/Presentation/Components/VideoCallTileMatrix.swift",
+        "root_cause": "Adding a participant changes the participant count, which makes VideoCallTileMatrix switch layout branch (twoLayout->threeLayout->adaptiveGrid). Tiles were addressed by index inside different container hierarchies (no stable identity), so SwiftUI tore down and rebuilt every tile, re-firing all their avatar-loading .task(id: avatarURL) at once. Each calls Network.image, which mutates the shared imageCache/inflightImages plain Dictionaries from multiple background threads with no synchronization. Concurrent Swift Dictionary mutation corrupts internal storage and spins -> freeze.",
+        "fix": "1) Isolated Network.image(_:) to @MainActor and ran its inner fetch Task as @MainActor so all imageCache/inflightImages reads+writes happen on one thread (the heavy session.data is an await that frees main). 2) Added cell(participant) helper in VideoCallTileMatrix applying .id(participant.id) to every tile so existing tiles keep identity within a layout branch and only the newcomer is built/loaded.",
+        "tags": [
+          "video-call",
+          "freeze",
+          "data-race",
+          "image-cache",
+          "swiftui-identity",
+          "add-participant",
+          "concurrency"
+        ],
+        "related_bugs": [
+          "bug-015"
+        ],
+        "occurrences": 1,
+        "last_seen": "2026-06-29"
+      },
+      {
+        "id": "bug-023",
+        "timestamp": "2026-06-29",
+        "error_message": "App freezes when the local camera turns on in a video call, and when closing a call and entering another call.",
+        "file": "Binbon/Features/CreateVideo/Presentation/Camera/CameraManager.swift, Binbon/Features/Calls/VideoCall/Presentation/Components/CameraPreviewView.swift",
+        "root_cause": "Two AVFoundation lifecycle hazards. (1) CameraManager.start() set isAuthorized=true BEFORE the session was configured. isAuthorized gates showCamera, so SwiftUI immediately created CameraPreviewView and attached the AVCaptureSession to the preview layer on the MAIN thread while configureIfNeeded()/beginConfiguration ran on sessionQueue — attaching a preview layer to a session mid-configuration blocks the main thread. (2) stop() captured [weak self]; on router.back() the @StateObject CameraManager deallocates so self was nil when the queued block ran, so stopRunning() never executed — the old session kept holding the camera and the next call's startRunning() contended for hardware -> freeze.",
+        "fix": "1) In start(), flip isAuthorized=true only AFTER the session is configured and startRunning() returns (DispatchQueue.main.async at the end of the sessionQueue block), so the preview layer attaches to a ready session. 2) stop() now captures the `let` session/movieOutput directly instead of [weak self], so teardown runs even during deallocation. 3) Added deinit { stop() } as a safety net. 4) CameraPreviewView.dismantleUIView sets previewLayer.session = nil so a removed tile doesn't keep the old session/camera alive into the next call.",
+        "tags": [
+          "video-call",
+          "freeze",
+          "camera",
+          "avfoundation",
+          "avcapturesession",
+          "lifecycle",
+          "re-enter",
+          "main-thread"
+        ],
+        "related_bugs": [
+          "bug-022"
+        ],
+        "occurrences": 1,
+        "last_seen": "2026-06-29"
+      }
+    ]
+  }
+]

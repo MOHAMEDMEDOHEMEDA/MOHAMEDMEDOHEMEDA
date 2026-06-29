@@ -1,0 +1,184 @@
+{
+  "session_id": "session-2026-06-29-1425",
+  "started": "2026-06-29T11:25:41.832Z",
+  "files_read": {
+    "/Users/mohamedmagdy/Downloads/royalCrownVip/Binbon-ios/Binbon/Features/Calls/VoiceCall/Presentation/Components/VoiceCallParticipantsGrid.swift": {
+      "count": 1,
+      "tokens": 2297,
+      "first_read": "2026-06-29T11:27:12.622Z"
+    },
+    "/Users/mohamedmagdy/Downloads/royalCrownVip/Binbon-ios/Binbon/Features/Calls/VoiceCall/Presentation/Components/VoiceCallReportSheet.swift": {
+      "count": 1,
+      "tokens": 0,
+      "first_read": "2026-06-29T11:27:13.214Z"
+    },
+    "/Users/mohamedmagdy/Downloads/royalCrownVip/Binbon-ios/Binbon/Features/Calls/VoiceCall/Presentation/Components/VoiceCallMoreOptionsMenu.swift": {
+      "count": 1,
+      "tokens": 0,
+      "first_read": "2026-06-29T11:27:20.426Z"
+    },
+    "/Users/mohamedmagdy/Downloads/royalCrownVip/Binbon-ios/Binbon/Features/Calls/VideoCall/Presentation/Components/ParticipantActionMenu.swift": {
+      "count": 1,
+      "tokens": 0,
+      "first_read": "2026-06-29T11:27:21.812Z"
+    },
+    "/Users/mohamedmagdy/Downloads/royalCrownVip/Binbon-ios/Binbon/Features/Calls/VideoCall/Presentation/Components/VideoCallScreenSharingBadge.swift": {
+      "count": 1,
+      "tokens": 180,
+      "first_read": "2026-06-29T11:27:22.388Z"
+    },
+    "/Users/mohamedmagdy/Downloads/royalCrownVip/Binbon-ios/Binbon/Features/Calls/VideoCall/Presentation/View/VideoCallView.swift": {
+      "count": 1,
+      "tokens": 5586,
+      "first_read": "2026-06-29T11:27:28.558Z"
+    },
+    "/Users/mohamedmagdy/Downloads/royalCrownVip/Binbon-ios/Binbon/Features/Calls/VoiceCall/Presentation/View/VoiceCallsView.swift": {
+      "count": 1,
+      "tokens": 4053,
+      "first_read": "2026-06-29T11:27:41.062Z"
+    },
+    "/Users/mohamedmagdy/Downloads/royalCrownVip/Binbon-ios/Binbon/Features/Calls/VideoCall/Presentation/Components/VideoCallTileMatrix.swift": {
+      "count": 1,
+      "tokens": 1667,
+      "first_read": "2026-06-29T11:28:01.957Z"
+    },
+    "/Users/mohamedmagdy/Downloads/royalCrownVip/Binbon-ios/Binbon/Features/CreateVideo/Presentation/Camera/CameraManager.swift": {
+      "count": 1,
+      "tokens": 4138,
+      "first_read": "2026-06-29T12:06:53.992Z"
+    },
+    "/Users/mohamedmagdy/Downloads/royalCrownVip/Binbon-ios/Binbon/Features/Calls/VideoCall/Presentation/Components/VideoCallControlsBar.swift": {
+      "count": 1,
+      "tokens": 1785,
+      "first_read": "2026-06-29T12:07:05.803Z"
+    },
+    "/Users/mohamedmagdy/Downloads/royalCrownVip/Binbon-ios/Binbon/Features/Calls/VideoCall/Presentation/Components/CallControlsDock.swift": {
+      "count": 1,
+      "tokens": 575,
+      "first_read": "2026-06-29T12:07:27.300Z"
+    },
+    "/Users/mohamedmagdy/Downloads/royalCrownVip/Binbon-ios/Binbon/Features/Calls/VideoCall/Presentation/Components/VideoCallTopChrome.swift": {
+      "count": 1,
+      "tokens": 545,
+      "first_read": "2026-06-29T12:08:18.804Z"
+    },
+    "/Users/mohamedmagdy/Downloads/royalCrownVip/Binbon-ios/Binbon/Features/Calls/VideoCall/Presentation/Components/ChooseVideoAccessSheet.swift": {
+      "count": 1,
+      "tokens": 1255,
+      "first_read": "2026-06-29T12:08:46.452Z"
+    },
+    "/Users/mohamedmagdy/Downloads/royalCrownVip/Binbon-ios/Binbon/Features/Calls/VoiceCall/Presentation/Components/UtilityControlButton.swift": {
+      "count": 1,
+      "tokens": 0,
+      "first_read": "2026-06-29T12:09:39.902Z"
+    },
+    "/Users/mohamedmagdy/Downloads/royalCrownVip/Binbon-ios/Binbon/Features/Calls/VoiceCall/Presentation/View/AddPersonSheetView.swift": {
+      "count": 1,
+      "tokens": 0,
+      "first_read": "2026-06-29T12:09:40.409Z"
+    },
+    "/Users/mohamedmagdy/Downloads/royalCrownVip/Binbon-ios/Binbon/App/AppRouter.swift": {
+      "count": 2,
+      "tokens": 2419,
+      "first_read": "2026-06-29T12:10:30.355Z"
+    }
+  },
+  "files_written": [
+    {
+      "file": "/Users/mohamedmagdy/Downloads/royalCrownVip/Binbon-ios/Binbon/Features/Calls/VoiceCall/Presentation/Components/VoiceCallReportSheet.swift",
+      "action": "edit",
+      "tokens": 104,
+      "at": "2026-06-29T11:33:03.372Z"
+    },
+    {
+      "file": "/Users/mohamedmagdy/Downloads/royalCrownVip/Binbon-ios/Binbon/Features/Calls/VoiceCall/Presentation/Components/VoiceCallReportSheet.swift",
+      "action": "edit",
+      "tokens": 46,
+      "at": "2026-06-29T11:33:08.228Z"
+    },
+    {
+      "file": "/Users/mohamedmagdy/Downloads/royalCrownVip/Binbon-ios/Binbon/Features/Calls/VoiceCall/Presentation/Components/VoiceCallParticipantsGrid.swift",
+      "action": "edit",
+      "tokens": 10,
+      "at": "2026-06-29T11:33:13.320Z"
+    },
+    {
+      "file": "/Users/mohamedmagdy/Downloads/royalCrownVip/Binbon-ios/Binbon/Features/Calls/VideoCall/Presentation/View/VideoCallView.swift",
+      "action": "edit",
+      "tokens": 42,
+      "at": "2026-06-29T11:33:41.374Z"
+    },
+    {
+      "file": "/Users/mohamedmagdy/Downloads/royalCrownVip/Binbon-ios/Binbon/Features/Calls/VideoCall/Presentation/View/VideoCallView.swift",
+      "action": "edit",
+      "tokens": 359,
+      "at": "2026-06-29T11:34:46.257Z"
+    },
+    {
+      "file": "/Users/mohamedmagdy/Downloads/royalCrownVip/Binbon-ios/Binbon/Features/Calls/VideoCall/Presentation/View/VideoCallView.swift",
+      "action": "edit",
+      "tokens": 50,
+      "at": "2026-06-29T11:34:54.446Z"
+    },
+    {
+      "file": "/Users/mohamedmagdy/Downloads/royalCrownVip/Binbon-ios/Binbon/Features/Calls/VideoCall/Presentation/View/VideoCallView.swift",
+      "action": "edit",
+      "tokens": 726,
+      "at": "2026-06-29T11:35:09.475Z"
+    },
+    {
+      "file": "/Users/mohamedmagdy/Downloads/royalCrownVip/Binbon-ios/Binbon/Features/Calls/VideoCall/Presentation/View/VideoCallView.swift",
+      "action": "edit",
+      "tokens": 77,
+      "at": "2026-06-29T11:35:17.674Z"
+    },
+    {
+      "file": "/Users/mohamedmagdy/Downloads/royalCrownVip/Binbon-ios/Binbon/Features/Calls/VideoCall/Presentation/Components/CallMeetingActionsSheet.swift",
+      "action": "edit",
+      "tokens": 36,
+      "at": "2026-06-29T11:57:13.284Z"
+    },
+    {
+      "file": "/Users/mohamedmagdy/Downloads/royalCrownVip/Binbon-ios/Binbon/Features/Calls/VideoCall/Presentation/Components/CallMeetingActionsSheet.swift",
+      "action": "edit",
+      "tokens": 126,
+      "at": "2026-06-29T11:57:21.038Z"
+    },
+    {
+      "file": "/Users/mohamedmagdy/Downloads/royalCrownVip/Binbon-ios/Binbon/Features/Calls/VideoCall/Presentation/Components/CallMeetingActionsSheet.swift",
+      "action": "edit",
+      "tokens": 33,
+      "at": "2026-06-29T11:57:29.852Z"
+    },
+    {
+      "file": "/Users/mohamedmagdy/Downloads/royalCrownVip/Binbon-ios/Binbon/Features/Calls/VideoCall/Presentation/View/VideoCallView.swift",
+      "action": "edit",
+      "tokens": 52,
+      "at": "2026-06-29T11:57:37.739Z"
+    },
+    {
+      "file": "/Users/mohamedmagdy/Downloads/royalCrownVip/Binbon-ios/Binbon/App/AppRouter.swift",
+      "action": "edit",
+      "tokens": 131,
+      "at": "2026-06-29T12:10:51.377Z"
+    },
+    {
+      "file": "/Users/mohamedmagdy/Downloads/royalCrownVip/Binbon-ios/Binbon/App/AppRouter.swift",
+      "action": "edit",
+      "tokens": 94,
+      "at": "2026-06-29T12:25:08.140Z"
+    }
+  ],
+  "edit_counts": {
+    "Binbon/Features/Calls/VoiceCall/Presentation/Components/VoiceCallReportSheet.swift": 2,
+    "Binbon/Features/Calls/VoiceCall/Presentation/Components/VoiceCallParticipantsGrid.swift": 1,
+    "Binbon/Features/Calls/VideoCall/Presentation/View/VideoCallView.swift": 6,
+    "Binbon/Features/Calls/VideoCall/Presentation/Components/CallMeetingActionsSheet.swift": 3,
+    "Binbon/App/AppRouter.swift": 2
+  },
+  "anatomy_hits": 11,
+  "anatomy_misses": 5,
+  "repeated_reads_warned": 1,
+  "cerebrum_warnings": 0,
+  "stop_count": 0
+}

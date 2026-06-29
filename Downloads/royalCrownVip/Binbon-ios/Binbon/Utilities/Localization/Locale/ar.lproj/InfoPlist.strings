@@ -1,0 +1,8 @@
+/* Shown in the system permission prompt the first time the app requests Face ID access. */
+"NSFaceIDUsageDescription" = "نستخدم بصمة الوجه لتسجيل دخولك إلى حسابك بأمان.";
+/* مكتبة الصور — إرفاق صور في البلاغات والبروفايل. */
+"NSPhotoLibraryUsageDescription" = "يحتاج Binbon الوصول إلى مكتبة الصور لإرفاق الصور في البلاغات وصورة ملفك الشخصي.";
+/* الميكروفون — تسجيل الصوت عند تصوير الفيديو. */
+"NSMicrophoneUsageDescription" = "يحتاج Binbon الوصول إلى الميكروفون لتسجيل الصوت عند تصوير الفيديو.";
+/* الموقع — اختيار المنطقة على الخريطة. */
+"NSLocationWhenInUseUsageDescription" = "يحتاج Binbon موقعك لمساعدتك في اختيار منطقتك على الخريطة.";
