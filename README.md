@@ -10,7 +10,7 @@
 ---
 
 ### 🚀 About Me
-- 📱 **Mid-Level iOS Software Engineer** with 3+ years of experience specializing in **Swift**, **SwiftUI**, and **UIKit**.
+- 📱 **Mid-Level iOS Software Engineer** with 4+ years of experience specializing in **Swift**, **SwiftUI**, and **UIKit**.
 - 🏛️ Expert in **MVVM**, **Clean Architecture**, and **Modular Architecture**.
 - 👨‍🏫 **iOS Instructor** at Sprints, having mentored over **50+ students** on engineering best practices.
 - ⚡ Focused on bridging elegant UI design with efficient backend integration to drive superior user engagement.
