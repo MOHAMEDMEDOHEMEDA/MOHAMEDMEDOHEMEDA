@@ -1,4 +1,3 @@
-<img width="1254" height="1254" alt="2FEE4660-560B-4DC7-869E-CD5409301CA4" src="https://github.com/user-attachments/assets/a171f2e3-5c0e-4ed7-a57d-0a2fdda4f4eb" />
 # 👨‍💻 Mohamed Magdy
 ### iOS Software Engineer | Instructor | Tech Enthusiast
 
