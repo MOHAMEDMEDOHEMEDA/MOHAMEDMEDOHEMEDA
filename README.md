@@ -1,5 +1,6 @@
+<img width="1254" height="1254" alt="2FEE4660-560B-4DC7-869E-CD5409301CA4" src="https://github.com/user-attachments/assets/a171f2e3-5c0e-4ed7-a57d-0a2fdda4f4eb" />
 # 👨‍💻 Mohamed Magdy
-### Mid-Level iOS Software Engineer | Instructor | Tech Enthusiast
+### iOS Software Engineer | Instructor | Tech Enthusiast
 
 <p align="left">
 <a href="https://www.linkedin.com/in/mohamed-magdy-02a26521b/"><img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn" /></a>
@@ -10,13 +11,13 @@
 ---
 
 ### 🚀 About Me
-- 📱 **Mid-Level iOS Software Engineer** with 4+ years of experience specializing in **Swift**, **SwiftUI**, and **UIKit**.
+- 📱 **iOS Software Engineer** with 4+ years of experience specializing in **Swift**, **SwiftUI**, and **UIKit**.
 - 🏛️ Expert in **MVVM**, **Clean Architecture**, and **Modular Architecture**.
 - 👨‍🏫 **iOS Instructor** at Sprints, having mentored over **50+ students** on engineering best practices.
 - ⚡ Focused on bridging elegant UI design with efficient backend integration to drive superior user engagement.
 
 ---
-<img width="682" height="1024" alt="image" src="https://github.com/user-attachments/assets/f0946cd8-e020-4cdc-8ed8-842226bf08de" />
+<img width="1254" height="1254" alt="2FEE4660-560B-4DC7-869E-CD5409301CA4" src="https://github.com/user-attachments/assets/e499de6e-d000-405d-a212-5419ec725db6" />
 
 ---
 ### 🛠️ Tech Stack & Tools
